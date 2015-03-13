@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.css"/>
+    <script src="libs/angular/angular.js"></script>
+</head>
+<body ng-app="app">
+
+<div ng-controller="Ctrl">
+    <e-dctv></e-dctv>
+
+    <div a-dctv></div>
+
+    x{{items}}
+
+    <!--<button-dctv name="user.name" items="items[0]">-->
+        <!--<button>go</button>-->
+    <!--</button-dctv>-->
+
+    <div class="button-dctv"
+         ng-repeat="item in items"
+         name="{{user.name}}"
+         items="item"></div>
+
+
+</div>
+
+<script>
+    angular.module('app', [])
+            .controller('Ctrl', function ($scope) {
+                $scope.user = {
+                    name: "Tom"
+                }
+                $scope.items = [{
+                    model: "R8",
+                    marka: "audi"
+                },
+                {
+                    model: "Sl",
+                    marka: "Mercedes"
+                },
+                {
+                    model: "m6",
+                    marka: "BMW"
+                }]
+            })
+            .directive('eDctv', function () {
+                return {
+                    restrict: "E",
+                    template: "<h1>E header</h1>"
+                }
+            })
+            .directive('aDctv', function () {
+                return {
+                    restrict: "A",
+                    template: "<h1>A header</h1>"
+                }
+            })
+            .directive('buttonDctv', function () {
+                return {
+                    restrict: "EAC",
+                    template: "<h1>\n    <div ng-transclude>xxxxxxxxxxx</div>\n    {{name}}\n    <hr/>\n    <input type=\"text\" ng-model=\"items.model\">\n    <br/>{{items}}\n</h1>",
+                    replace: true,
+                    transclude: true,
+                    required: "buttonDctv",
+                    scope: {
+                        name: "@",
+                        items: "="
+                    },
+                    controller: function(){
+                        this.over = function(){
+                            console.log("mouseover");
+                        }
+                        this.onClick = function(){
+                            alert('ok');
+                        }
+                    },
+                    link: function(scope, el, attrs, ctrl){
+                        el.css({border:"lpx solid red", background: ' white'});
+                        el.on('click', ctrl.onClick);
+                        el.on('mouseover', ctrl.over);
+                    }
+                }
+            })
+</script>
+</body>
+</html>

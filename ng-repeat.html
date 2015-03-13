@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.css"/>
+    <script src="libs/angular/angular.js"></script>
+</head>
+<body ng-app="app">
+
+<div ng-controller="Ctrl">
+    <input type="text" ng-model="user.name">{{user}}
+    <ul>
+        <li ng-repeat="item in items | filter:user:true | limitTo:2">
+            {{item}}
+        </li>
+    </ul>
+    <input type="text" ng-model="xyz">
+    {{xyz | dashToCamelCase}}
+</div>
+
+<script>
+    angular.module('app', [])
+            .controller('Ctrl', function ($scope) {
+                $scope.items = [
+                    {name: "John", job: "driver not like Chris"},
+                    {name: "Chris", job: "manager"},
+                    {name: "Alice", job: "manager"},
+                    {name: "Bob", job: "manager"},
+                    {name: "Chris", job: "manager"},
+                    {name: "Chris", job: "manager"},
+                    {name: "Chris", job: "manager"},
+                    {name: "Chris", job: "manager"}
+                ];
+            })
+            .filter('dashToCamelCase', function(){
+                return function(input) {
+                    return input.replace('1234', function(val){
+                        return val.charAt(0);
+                    });
+                }
+            })
+</script>
+</body>
+</html>

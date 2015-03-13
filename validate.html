@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.css"/>
+    <script src="libs/angular/angular.js"></script>
+
+    <style>
+        input.ng-invalid, textarea.ng-invalid{
+            border: 2px solid red;
+        }
+        input.ng-valid, textarea.ng-valid{
+            border: 2px solid green;
+        }
+    </style>
+</head>
+<body>
+
+<div ng-app="app">
+    <form class="form" name="exampleForm" novalidate ng-controller="Ctrl">
+        x{{user}}
+        <input-dctv model="user.name" required="true" type="text" error-msg="errorMsg">
+            Twoje imie:
+        </input-dctv>
+        <input-dctv model="user.mail" required="false" type="email" error-msg="errorMsg">
+            Twój mail:
+        </input-dctv>
+        <input-dctv model="user.message" required="true" type="textarea" error-msg="errorMsg">
+            Wiadomość:
+        </input-dctv>
+
+        <button ng-click="send()">Wyślij</button>
+    </form>
+</div>
+<script>
+    angular.module('app', [])
+            .controller('Ctrl', function ($scope) {
+                $scope.data ={
+                    model: ''
+                }
+                $scope.send = function(){
+                    console.log($scope.exampleForm.$valid)
+                    if($scope.exampleForm.$valid)
+                        $scope.errorMsg = false;
+                    else
+                        $scope.errorMsg = true;
+                }
+            })
+            .directive('inputDctv', function() {
+                return {
+                    restrict: "E",
+                    templateUrl: "tpl/input-tpl.html",
+                    transclude: true,
+                    scope: {
+                        type: "@",
+                        required: "=",
+                        model: "=",
+                        errorMsg: "="
+                    }
+                }
+            })
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.css"/>
+    <script src="libs/angular/angular.js"></script>
+</head>
+<body ng-app="app">
+
+<div ng-controller="Ctrl">
+    {{welcome | uppercase}}
+    <br/>
+    {{2+2}}
+    <br/>
+    Id: {{$id}}
+    <br/>
+    {{'1426070212857' | date:'MM/dd/yyyy @ h:mma'}}
+    <br/>
+    <input type="text" ng-model="txt"/>
+    <input type="text" ng-model="user.name"/> {{user}}
+    <br/>
+    {{txt}}
+    <br/>
+    <span>{{txt == pass && 'Ok' || 'Not ok'}}</span>
+    <br/>
+    <br/>
+
+    <h2 ng-class="{'text-danger':txt!=pass, 'text-success':txt == pass}">access</h2>
+
+    <br/>
+    <h5 ng-if="txt == pass">is</h5>
+    <h5 ng-if="true">Id ng-if: {{$id}}</h5>
+    <br/>
+    <h5 ng-if="true">Parent Id ng-if: {{$parent.$id}}</h5>
+    <button ng-click="onClick()">click</button>
+
+
+
+</div>
+
+<script>
+    angular.module('app', [])
+            .controller('Ctrl', function ($scope) {
+                $scope.welcome = "Welcome!";
+                $scope.pass = 'Password';
+                $scope.onClick = function () {
+                    console.log($scope.txt);
+                };
+                $scope.$watch('user', function(newVal, oldVal){
+                   console.log('txt', newVal, oldVal);
+                }, true);
+            })
+</script>
+</body>
+</html>
